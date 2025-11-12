@@ -127,7 +127,7 @@ def make_figure(mu0, mu1, sigma, c, tail):
 
 app = Dash(__name__)
 server = app.server 
-app.title = "α–β Explorer (SciPy)"
+app.title = "alpha-beta explorer"
 
 app.layout = html.Div([
     html.H3("Интерактивный график ошибок I (α), II (β) рода и мощности"),
@@ -166,7 +166,15 @@ app.layout = html.Div([
         ], style={"flex":"1", "minWidth":"280px"}),
     ], style={"display":"flex", "gap":"14px", "flexWrap":"wrap", "marginBottom":"8px"}),
 
-    dcc.Graph(id="fig", config={"displaylogo": False})
+    dcc.Graph(id="fig", config={"displaylogo": False}),
+
+    html.Hr(),
+    html.Footer([
+        "tg автора: ",
+        html.A("@ArturKamalov", href="https://t.me/ArturKamalov",
+            target="_blank", rel="noopener noreferrer")
+    ], style={"textAlign":"center","margin":"10px 0 30px","color":"#555"})
+
 ], style={"maxWidth":"1100px", "margin":"18px auto", "padding":"0 16px"})
 
 
