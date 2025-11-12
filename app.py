@@ -4,6 +4,9 @@ import plotly.graph_objects as go
 
 from dash import Dash, dcc, html, Output, Input, ctx
 from scipy.stats import norm 
+from dotenv import load_dotenv
+
+load_dotenv() 
 
 
 def errors(mu0, mu1, sigma, c, tail):
