@@ -37,48 +37,70 @@ def make_figure(mu0, mu1, sigma, c, tail):
 
     alpha, beta, power, cL, cR = errors(mu0, mu1, sigma, c, tail)
 
-    if tail == "right":
-        alpha_mask = x >= c
-        beta_mask  = x <  c
-        power_mask = x >= c
-        crits = [c]
-    elif tail == "left":
-        alpha_mask = x <= c
-        beta_mask  = x >  c
-        power_mask = x <= c
-        crits = [c]
-    else:
-        alpha_mask = (x <= cL) | (x >= cR)
-        beta_mask  = (x >= cL) & (x <= cR)
-        power_mask = (x <= cL) | (x >= cR)
-        crits = [cL, cR]
-
-    y0_alpha = np.where(alpha_mask, y0, np.nan)
-    y1_beta  = np.where(beta_mask,  y1, np.nan)
-    y1_power = np.where(power_mask, y1, np.nan)
-
     fig = go.Figure()
-
+    # кривые
     fig.add_trace(go.Scatter(x=x, y=y0, mode="lines", name="H₀ ~ N(μ₀, σ)", line=dict(width=2)))
     fig.add_trace(go.Scatter(x=x, y=y1, mode="lines", name="H₁ ~ N(μ₁, σ)", line=dict(width=2)))
 
-    fig.add_trace(go.Scatter(
-        x=x, y=y1_power, mode="lines", name="Мощность 1−β",
-        fill="tozeroy", opacity=0.30,
-        line=dict(color="rgba(56,189,248,1)")
-    ))
+    if tail in ("right", "left"):
+        if tail == "right":
+            alpha_mask = x >= c
+            beta_mask  = x <  c
+            power_mask = x >= c
+            crits = [c]
+        else:
+            alpha_mask = x <= c
+            beta_mask  = x >  c
+            power_mask = x <= c
+            crits = [c]
 
-    fig.add_trace(go.Scatter(
-        x=x, y=y0_alpha, mode="lines", name="α (Type I)",
-        fill="tozeroy", opacity=0.35,
-        line=dict(color="rgba(239,68,68,1)")
-    ))
-    fig.add_trace(go.Scatter(
-        x=x, y=y1_beta, mode="lines", name="β (Type II)",
-        fill="tozeroy", opacity=0.35,
-        line=dict(color="rgba(245,158,11,1)")
-    ))
+        # одиночные заливки
+        fig.add_trace(go.Scatter(x=x, y=np.where(power_mask, y1, np.nan),
+                                 mode="lines", name="Мощность 1−β",
+                                 fill="tozeroy", opacity=0.30,
+                                 line=dict(color="rgba(56,189,248,1)"), showlegend=True))
+        fig.add_trace(go.Scatter(x=x, y=np.where(alpha_mask, y0, np.nan),
+                                 mode="lines", name="α (Type I)",
+                                 fill="tozeroy", opacity=0.35,
+                                 line=dict(color="rgba(239,68,68,1)"), showlegend=True))
+        fig.add_trace(go.Scatter(x=x, y=np.where(beta_mask, y1, np.nan),
+                                 mode="lines", name="β (Type II)",
+                                 fill="tozeroy", opacity=0.35,
+                                 line=dict(color="rgba(245,158,11,1)"), showlegend=True))
+    else:
+        # двусторонний: делим на левый/правый хвосты для корректной заливки
+        left  = x <= cL
+        mid   = (x >= cL) & (x <= cR)
+        right = x >= cR
+        crits = [cL, cR]
 
+        # мощность (два хвоста под H1)
+        fig.add_trace(go.Scatter(x=x, y=np.where(left,  y1, np.nan),
+                                 mode="lines", name="Мощность 1−β",
+                                 fill="tozeroy", opacity=0.30,
+                                 line=dict(color="rgba(56,189,248,1)"), showlegend=True))
+        fig.add_trace(go.Scatter(x=x, y=np.where(right, y1, np.nan),
+                                 mode="lines", name="Мощность 1−β",
+                                 fill="tozeroy", opacity=0.30,
+                                 line=dict(color="rgba(56,189,248,1)"), showlegend=False))
+
+        # α под H0 (два хвоста)
+        fig.add_trace(go.Scatter(x=x, y=np.where(left,  y0, np.nan),
+                                 mode="lines", name="α (Type I)",
+                                 fill="tozeroy", opacity=0.35,
+                                 line=dict(color="rgba(239,68,68,1)"), showlegend=True))
+        fig.add_trace(go.Scatter(x=x, y=np.where(right, y0, np.nan),
+                                 mode="lines", name="α (Type I)",
+                                 fill="tozeroy", opacity=0.35,
+                                 line=dict(color="rgba(239,68,68,1)"), showlegend=False))
+
+        # β под H1 (середина)
+        fig.add_trace(go.Scatter(x=x, y=np.where(mid, y1, np.nan),
+                                 mode="lines", name="β (Type II)",
+                                 fill="tozeroy", opacity=0.35,
+                                 line=dict(color="rgba(245,158,11,1)"), showlegend=True))
+
+    # критические вертикали
     ymax = max(np.nanmax(y0), np.nanmax(y1))
     for cc in crits:
         fig.add_shape(type="line", x0=cc, x1=cc, y0=0, y1=ymax, line=dict(width=2, dash="dash"))
@@ -105,7 +127,7 @@ server = app.server
 app.title = "α–β Explorer (SciPy)"
 
 app.layout = html.Div([
-    html.H3("Интерактивный график ошибок I (α), II (β) рода и мощности — SciPy, Dash"),
+    html.H3("Интерактивный график ошибок I (α), II (β) рода и мощности"),
     html.Div([
         html.Div([
             html.Label("μ₀ (H₀)"),
