@@ -101,6 +101,7 @@ def make_figure(mu0, mu1, sigma, c, tail):
 
 
 app = Dash(__name__)
+server = app.server 
 app.title = "α–β Explorer (SciPy)"
 
 app.layout = html.Div([
