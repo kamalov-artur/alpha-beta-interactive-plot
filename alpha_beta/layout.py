@@ -7,13 +7,13 @@ def build_layout():
         html.Div([
             html.Div([
                 html.Label("μ₀ (H₀)"),
-                dcc.Slider(id="mu0", min=-50, max=50, step=None, value=25, marks=None,
+                dcc.Slider(id="mu0", min=0, max=10, step=None, value=5, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("μ₁ (H₁)"),
-                dcc.Slider(id="mu1", min=-50, max=50, step=None, value=30, marks=None,
+                dcc.Slider(id="mu1", min=0, max=15, step=None, value=7, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("σ (стандартное отклонение популяции)"),
-                dcc.Slider(id="sigma", min=0.5, max=20, step=None, value=5, marks=None,
+                dcc.Slider(id="sigma", min=1, max=10, step=None, value=5, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("n (размер выборки)"),
                 dcc.Slider(id="n", min=2, max=1000, step=1, value=30, marks=None,
@@ -34,7 +34,7 @@ def build_layout():
                 html.Div([
                     html.Label("α (уровень значимости)"),
                     dcc.Slider(
-                        id="alpha_slider", min=0.0005, max=0.2, step=None, value=0.05, marks=None,
+                        id="alpha_slider", min=0.001, max=0.1, step=None, value=0.05, marks=None,
                         tooltip={"placement": "bottom",
                                  "always_visible": True},
                     ),
@@ -43,7 +43,7 @@ def build_layout():
                 html.Div([
                     html.Label("критическое значение С"),
                     dcc.Slider(
-                        id="c_slider", min=-50, max=50, step=None, value=30, marks=None,
+                        id="c_slider", min=0, max=15, step=None, value=30, marks=None,
                         tooltip={"placement": "bottom",
                                  "always_visible": True},
                     ),
