@@ -13,7 +13,7 @@ def build_layout():
                 dcc.Slider(id="mu1", min=0, max=15, step=None, value=7, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("σ (стандартное отклонение)"),
-                dcc.Slider(id="sigma", min=1, max=15, step=None, value=5, marks=None,
+                dcc.Slider(id="sigma", min=1, max=13, step=None, value=5, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("n (размер выборки)"),
                 dcc.Slider(id="n", min=2, max=1000, step=1, value=30, marks=None,
