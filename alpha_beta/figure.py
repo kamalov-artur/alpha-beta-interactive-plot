@@ -80,9 +80,6 @@ def make_figure(mu0, mu1, sigma, c, tail):
         subtitle += f"   (cL={cL:.3f}, cR={cR:.3f})"
 
     fig.update_layout(
-        title=f"Ошибки I и II рода — "
-              f"{dict(right='правосторонний', left='левосторонний', **{'two-sided':'двусторонний'})[tail]} тест"
-              f"<br><sup>{subtitle}</sup>",
         template="plotly_white",
         margin=dict(l=40, r=20, t=60, b=40),
         xaxis_title="значение",
