@@ -7,13 +7,13 @@ def build_layout():
         html.Div([
             html.Div([
                 html.Label("μ₀ (H₀)"),
-                dcc.Slider(id="mu0", min=0, max=10, step=None, value=5, marks=None,
+                dcc.Slider(id="mu0", min=0, max=15, step=None, value=5, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("μ₁ (H₁)"),
                 dcc.Slider(id="mu1", min=0, max=15, step=None, value=7, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("σ (стандартное отклонение)"),
-                dcc.Slider(id="sigma", min=1, max=10, step=None, value=5, marks=None,
+                dcc.Slider(id="sigma", min=1, max=15, step=None, value=5, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("n (размер выборки)"),
                 dcc.Slider(id="n", min=2, max=1000, step=1, value=30, marks=None,
