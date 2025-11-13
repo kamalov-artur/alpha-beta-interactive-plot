@@ -125,8 +125,8 @@ def make_figure(mu0, mu1, se, tail, cL, cR, alpha_val, beta_val, power_val):
     fig.update_layout(
         template="plotly_white",
         margin=dict(l=40, r=20, t=60, b=40),
-        xaxis_title="значение",
-        yaxis_title="плотность",
+        xaxis_title="Значение статистики",
+        yaxis_title="Вероятность",
         legend=dict(orientation="h", y=1.14, x=0),
         height=560)
     return fig
