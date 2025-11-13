@@ -12,7 +12,7 @@ def build_layout():
                 html.Label("μ₁ (H₁)"),
                 dcc.Slider(id="mu1", min=0, max=15, step=None, value=7, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
-                html.Label("σ (стандартное отклонение популяции)"),
+                html.Label("σ (стандартное отклонение)"),
                 dcc.Slider(id="sigma", min=1, max=10, step=None, value=5, marks=None,
                            tooltip={"placement": "bottom", "always_visible": True}),
                 html.Label("n (размер выборки)"),
